@@ -16,9 +16,15 @@ public class CustomerService {
 
     public List<CustomerDTO> search() {
          return this.customerRepository
-                .findAll()
-                .stream()
-                .map(customer -> new CustomerDTO(customer.getId(), customer.getEmail())
-                ).collect(Collectors.toList());
+                 .findAll()
+                 .stream()
+                 .map(customer -> new CustomerDTO(customer.getId(), customer.getEmail()))
+                 .collect(Collectors.toList());
+    }
+
+    public CustomerDTO read(Long id) {
+        Customer customer =  this.customerRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Customer not found"));
+        return new CustomerDTO(customer.getId(), customer.getEmail());
     }
 }
